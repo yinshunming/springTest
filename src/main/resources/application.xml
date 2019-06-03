@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+
+    http://www.springframework.org/schema/cache
+    http://www.springframework.org/schema/cache/spring-cache-3.1.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd">
+    <!--<bean id="helloWorld" class="com.test.ioc.HelloWorld" init-method="initMethod" destroy-method="destroyMethod">-->
+        <!--<property name="message" value="Hello World!"/>-->
+    <!--</bean>-->
+
+    <bean id="person" class="com.test.aop.Person"/>
+    <bean id="sleepHelper" class="com.test.aop.SleepHelper"/>
+
+    <aop:aspectj-autoproxy/>
+    <aop:config proxy-target-class="true">
+        <aop:aspect ref="sleepHelper">
+            <aop:before pointcut="execution(* com.test.aop.Person.doSomething())" method="beforeDo"/>
+            <aop:after-returning pointcut="execution(* com.test.aop.Person.doSomething()))" method="afterDo"/>
+        </aop:aspect>
+    </aop:config>
+
+    <!--<bean id="pointCut" class="org.springframework.aop.support.JdkRegexpMethodPointcut">-->
+        <!--<property name="pattern" value=".*ing"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="advisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">-->
+        <!--<property name="advice" ref="sleepHelper"/>-->
+        <!--<property name="pointcut" ref="pointCut"/>-->
+    <!--</bean>-->
+    <!--<bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">-->
+        <!--<property name="target" ref="person"/>-->
+        <!--<property name="interceptorNames" value="advisor"/>-->
+        <!--<property name="proxyInterfaces" value="com.test.aop.IPerson"/>-->
+    <!--</bean>-->
+
+    <!--<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>-->
+
+    <!--<bean id="helloWorldPostProcessor" class="com.test.ioc.HelloWorldBeanPostProcessor"/>-->
+    <!--<bean id="myFactoryPostProcessor" class="com.test.ioc.MyFactoryPostProcessor"/>-->
+
+</beans>
